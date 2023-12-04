@@ -11,8 +11,8 @@ from convert import phonetics
 
 def concat_phones(phones: Iterable[str],
                   lookup: Dict[str, AudioSegment],
-                  speedup: float = 2.0,
-                  volume_change: float = 18) -> AudioSegment:
+                  speedup: float = 4.0,
+                  volume_change: float = 0) -> AudioSegment:
     '''
     Concatenates an iterable of phones to make a single word.
     Sped up by a factor of speedup and increased in volume by volume_change decibels
@@ -32,9 +32,9 @@ def group_phones(sentence: Iterable[str], phones: Container[str]) -> List[List[s
 
 def line_to_sound(line_phones: Iterable[str],
                   lookup: Dict[str, AudioSegment],
-                  silence: AudioSegment = AudioSegment.silent(100, frame_rate=22050),
+                  silence: AudioSegment = AudioSegment.silent(20, frame_rate=22050),
                   speedup: float = 2.0,
-                  volume_change: float = 18) -> AudioSegment:
+                  volume_change: float = 0.0) -> AudioSegment:
     '''
     Converts a line of phones (potentially multiple words) into a single sound,
     with pauses between words.
