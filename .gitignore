@@ -162,3 +162,5 @@ cython_debug/
 *.elf
 *.gba
 *.sav
+
+.vscode
