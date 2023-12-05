@@ -70,6 +70,7 @@ $(BUILD):
 			--audio="$(AUDIO)" --dmg_audio="$(DMGAUDIO)" --graphics="$(GRAPHICS)" --build=$(BUILD)
 	
     # Custom duration calculator
+    # TODO(auberon): Figure out why this runs every time even if dependencies haven't changed 
 	@$(PYTHON) -B $(SCRIPTS)/duration_metadata.py $(BUILD)/bn_sound_items_info.h audio $(BUILD)/sound_duration_metadata.h
 
     # From original 
