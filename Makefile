@@ -48,7 +48,7 @@ USERLIBS    :=
 DEFAULTLIBS :=  
 USERBUILD   :=  
 EXTTOOL     :=  
-
+SCRIPTS     := scripts
 #---------------------------------------------------------------------------------------------------------------------
 # Export absolute butano path:
 #---------------------------------------------------------------------------------------------------------------------
@@ -60,3 +60,17 @@ endif
 # Include main makefile:
 #---------------------------------------------------------------------------------------------------------------------
 include $(LIBBUTANOABS)/butano.mak
+
+#---------------------------------------------------------------------------------
+# Override build target to inject our script
+#---------------------------------------------------------------------------------
+$(BUILD):
+    # From original 
+	@$(PYTHON) -B $(BN_TOOLS)/butano_assets_tool.py --grit="$(BN_GRIT)" --mmutil="$(BN_MMUTIL)" \
+			--audio="$(AUDIO)" --dmg_audio="$(DMGAUDIO)" --graphics="$(GRAPHICS)" --build=$(BUILD)
+	
+    # Custom duration calculator
+	@$(PYTHON) -B $(SCRIPTS)/duration_metadata.py $(BUILD)/bn_sound_items_info.h audio $(BUILD)/sound_duration_metadata.h
+
+    # From original 
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
