@@ -44,7 +44,7 @@ ALLOPHONE_LOOKUP = {
     'IH1': 'ˈɪ',
     'IH2': 'ˌɪ',
     'IY0': 'i',
-    'IY1': 'ˈi:',
+    'IY1': 'ˈiː',
     'IY2': 'ˌi',
     'JH': 'dʒ',
     'K': 'k',
@@ -67,7 +67,7 @@ ALLOPHONE_LOOKUP = {
     'UH0': 'ʊ',
     'UH1': 'ˈʊ',
     'UH2': 'ˌʊ',
-    'UW': 'u:',
+    'UW': 'uː',
     'UW0': 'u',
     'UW1': 'ˈuː',
     'UW2': 'ˌu',
@@ -77,6 +77,8 @@ ALLOPHONE_LOOKUP = {
     'Z': 'z',
     'ZH': 'ʒ',
 }
+
+REVERSE_ALLOPHONE_LOOKUP = {ipa: g2p for g2p, ipa in ALLOPHONE_LOOKUP.items()}
 
 
 def strip_markers(allophone: str) -> str:
@@ -106,8 +108,8 @@ def to_ipa(sentence: List[str], allophones: bool = True) -> List[str]:
     includes only phonemes.
     Any symbols not in the lookup (e.g. punctuation) is left as is.
     '''
-
     lookup = ALLOPHONE_LOOKUP if allophones else PHONEME_LOOKUP
+
     return [lookup.get(symbol, symbol)
             for symbol in sentence]
 

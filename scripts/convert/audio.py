@@ -4,6 +4,7 @@ from typing import Callable, Dict, List
 from pydub import AudioSegment
 
 from convert.types import Filename
+from convert.phonetics import REVERSE_ALLOPHONE_LOOKUP
 
 
 def gba_resample(sound: AudioSegment) -> AudioSegment:
@@ -31,7 +32,7 @@ def load_ipa_audio(input_directory: Filename,
     dictionary.
 
     If output_directory is specified, will save the transformed audio in the given location.
-    The output filenames will be the IPA symbol(s) and will all be WAVs.
+    The output filenames will be the g2p symbols and will all be WAVs.
     Will overwrite any existing WAV files with the same name.
     '''
 
@@ -42,19 +43,28 @@ def load_ipa_audio(input_directory: Filename,
                  for file in Path(input_directory).glob(glob)}
 
     if output_directory:
-        save_ipa_audio(ipa_audio, output_directory)
+        save_ipa_audio(ipa_audio, output_directory, REVERSE_ALLOPHONE_LOOKUP)
 
     return ipa_audio
 
 
-def save_ipa_audio(ipa_audio: Dict[str, AudioSegment], directory: Filename) -> None:
+def save_ipa_audio(ipa_audio: Dict[str, AudioSegment],
+                   directory: Filename,
+                   rename: Dict[str, str] | None = None) -> None:
     '''
     Saves the IPA sound samples in the given directory.
 
-    The filenames will be the IPA symbol(s) and will all be WAVs.
+    If no rename is provided, the filenames will be the keys and will all be WAVs.
+    If a rename is provided, the filename will be transformed.
     Will overwrite any existing WAV files with the same name.
     '''
 
     for symbol, sound in ipa_audio.items():
+        if rename:
+            if symbol in rename:
+                symbol = rename[symbol]
+            else:
+                print(f"WARNING: Unknown symbol: {symbol}, skipping")
+                continue
         filename = (Path(directory) / symbol).with_suffix(".wav")
         sound.export(filename, format="wav")
