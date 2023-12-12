@@ -1,81 +1,81 @@
 import json
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Set
 
 from g2p_en import G2p
 
 from convert.types import Filename
 
 ALLOPHONE_LOOKUP = {
-    'AA0': 'ɑ',
-    'AA1': 'ˈɑː',
-    'AA2': 'ˌɑ',
-    'AE0': 'æ',
-    'AE1': 'ˈæ',
-    'AE2': 'ˌæ',
-    'AH0': 'ə',
-    'AH1': 'ˈʌ',
-    'AH2': 'ˌʌ',
-    'AO0': 'ɔ',
-    'AO1': 'ˈɔː',
-    'AO2': 'ˌɔ',
-    'AW0': 'aʊ',
-    'AW1': 'ˈaʊ',
-    'AW2': 'ˌaʊ',
-    'AY0': 'aɪ',
-    'AY1': 'ˈaɪ',
-    'AY2': 'ˌaɪ',
-    'B': 'b',
-    'CH': 'tʃ',
-    'D': 'd',
-    'DH': 'ð',
-    'EH0': 'ɛ',
-    'EH1': 'ˈɛ',
-    'EH2': 'ˌɛ',
-    'ER0': 'ɚ',
-    'ER1': 'ˈɚ',
-    'ER2': 'ˌɚ',
-    'EY0': 'eɪ',
-    'EY1': 'ˈeɪ',
-    'EY2': 'ˌeɪ',
-    'F': 'f',
-    'G': 'g',
-    'HH': 'h',
-    'IH0': 'ɪ',
-    'IH1': 'ˈɪ',
-    'IH2': 'ˌɪ',
-    'IY0': 'i',
-    'IY1': 'ˈiː',
-    'IY2': 'ˌi',
-    'JH': 'dʒ',
-    'K': 'k',
-    'L': 'l',
-    'M': 'm',
-    'N': 'n',
-    'NG': 'ŋ',
-    'OW0': 'oʊ',
-    'OW1': 'ˈoʊ',
-    'OW2': 'ˌoʊ',
-    'OY0': 'ɔɪ',
-    'OY1': 'ˈɔɪ',
-    'OY2': 'ˌɔɪ',
-    'P': 'p',
-    'R': 'ɹ',
-    'S': 's',
-    'SH': 'ʃ',
-    'T': 't',
-    'TH': 'θ',
-    'UH0': 'ʊ',
-    'UH1': 'ˈʊ',
-    'UH2': 'ˌʊ',
-    'UW': 'uː',
-    'UW0': 'u',
-    'UW1': 'ˈuː',
-    'UW2': 'ˌu',
-    'V': 'v',
-    'W': 'w',
-    'Y': 'j',
-    'Z': 'z',
-    'ZH': 'ʒ',
+    'aa0': 'ɑ',
+    'aa1': 'ˈɑː',
+    'aa2': 'ˌɑ',
+    'ae0': 'æ',
+    'ae1': 'ˈæ',
+    'ae2': 'ˌæ',
+    'ah0': 'ə',
+    'ah1': 'ˈʌ',
+    'ah2': 'ˌʌ',
+    'ao0': 'ɔ',
+    'ao1': 'ˈɔː',
+    'ao2': 'ˌɔ',
+    'aw0': 'aʊ',
+    'aw1': 'ˈaʊ',
+    'aw2': 'ˌaʊ',
+    'ay0': 'aɪ',
+    'ay1': 'ˈaɪ',
+    'ay2': 'ˌaɪ',
+    'b': 'b',
+    'ch': 'tʃ',
+    'd': 'd',
+    'dh': 'ð',
+    'eh0': 'ɛ',
+    'eh1': 'ˈɛ',
+    'eh2': 'ˌɛ',
+    'er0': 'ɚ',
+    'er1': 'ˈɚ',
+    'er2': 'ˌɚ',
+    'ey0': 'eɪ',
+    'ey1': 'ˈeɪ',
+    'ey2': 'ˌeɪ',
+    'f': 'f',
+    'g': 'g',
+    'hh': 'h',
+    'ih0': 'ɪ',
+    'ih1': 'ˈɪ',
+    'ih2': 'ˌɪ',
+    'iy0': 'i',
+    'iy1': 'ˈiː',
+    'iy2': 'ˌi',
+    'jh': 'dʒ',
+    'k': 'k',
+    'l': 'l',
+    'm': 'm',
+    'n': 'n',
+    'ng': 'ŋ',
+    'ow0': 'oʊ',
+    'ow1': 'ˈoʊ',
+    'ow2': 'ˌoʊ',
+    'oy0': 'ɔɪ',
+    'oy1': 'ˈɔɪ',
+    'oy2': 'ˌɔɪ',
+    'p': 'p',
+    'r': 'ɹ',
+    's': 's',
+    'sh': 'ʃ',
+    't': 't',
+    'th': 'θ',
+    'uh0': 'ʊ',
+    'uh1': 'ˈʊ',
+    'uh2': 'ˌʊ',
+    'uw': 'uː',
+    'uw0': 'u',
+    'uw1': 'ˈuː',
+    'uw2': 'ˌu',
+    'v': 'v',
+    'w': 'w',
+    'y': 'j',
+    'z': 'z',
+    'zh': 'ʒ'
 }
 
 REVERSE_ALLOPHONE_LOOKUP = {ipa: g2p for g2p, ipa in ALLOPHONE_LOOKUP.items()}
@@ -94,11 +94,12 @@ PHONEME_LOOKUP = {g2p_alph: strip_markers(ipa_alph)
 
 def text_to_g2p_allophone(inputStream: Iterable[str], g2p: G2p = None) -> List[List[str]]:
     '''
-    Transliterates text into g2p_en's allophones.
+    Transliterates text into lowercase versions of g2p_en's allophones.
     '''
     if g2p is None:
         g2p = G2p()
-    return [g2p(line) for line in inputStream]
+    return [[token.lower() for token in g2p(line)]
+            for line in inputStream]
 
 
 def to_ipa(sentence: List[str], allophones: bool = True) -> List[str]:
@@ -149,3 +150,10 @@ def convert_and_dump(input_stream: Iterable[str],
         "ipa_allos": ipa_allos,
         "ipa_phons": ipa_phons
     }
+
+
+def diphones(word: Iterable[str]) -> Set[str]:
+    '''
+    Exploratory function for finding all diphones in a text
+    '''
+    return set((word[i], word[i + 1]) for i in range(len(word) - 1))

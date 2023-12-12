@@ -39,7 +39,7 @@ def load_ipa_audio(input_directory: Filename,
     if transform is None:
         def transform(x): return x
 
-    ipa_audio = {file.stem: AudioSegment.from_file(file)
+    ipa_audio = {file.stem: transform(AudioSegment.from_file(file))
                  for file in Path(input_directory).glob(glob)}
 
     if output_directory:
