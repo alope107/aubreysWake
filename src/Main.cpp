@@ -51,22 +51,23 @@ namespace
         common::info info("", info_text_lines, text_generator);
         info.set_show_always(true);
         int x = 0;
-        // int i = 0;
-        bn::vector<bn::sound_item, 2> sounds;
-        sounds.push_back(bn::sound_items::riverrun);
-        sounds.push_back(bn::sound_items::base);
-        //  {, bn::sound_items::riverrun_demo}
-        MultiSound<2> loop = {sounds};
+
+        bn::vector<bn::sound_item, 6> sounds;
+        sounds.push_back(bn::sound_items::r);
+        sounds.push_back(bn::sound_items::ih1);
+        sounds.push_back(bn::sound_items::v);
+        sounds.push_back(bn::sound_items::er0);
+        sounds.push_back(bn::sound_items::ah0);
+        sounds.push_back(bn::sound_items::n);
+
+        MultiSound<6> loop = {sounds};
 
         while(! bn::keypad::start_pressed())
         {
             if(bn::keypad::a_pressed())
             {
-                // bn::sound_items::riverrun_demo.id
-                bn::sound_items::riverrun.play(1);
                 x = 0;
             }
-            int duration = wake::duration(bn::sound_items::crummy);
             
             bn::vector<bn::sprite_ptr, 32> text_sprites;
             text_generator.generate(0, 40, bn::to_string<32>(x++), text_sprites);
