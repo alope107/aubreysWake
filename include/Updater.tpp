@@ -13,8 +13,4 @@ namespace wake {
     void wake::Updater<Size>::add(IUpdatable& updatable) {
         updatables.push_back(&updatable);
     }
-
-    void wake::SillyUpdatable::update() {
-        wake::log("Um hey", "guys");
-    }
 }

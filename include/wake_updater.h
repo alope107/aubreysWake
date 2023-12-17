@@ -8,6 +8,7 @@ namespace wake {
     class IUpdatable {
         public:
             virtual void update() = 0;
+            virtual ~IUpdatable() {};
     };
 
     template<int Size>
@@ -18,11 +19,6 @@ namespace wake {
             void add(IUpdatable& updatable);
         protected:
             bn::vector<IUpdatable*, Size> updatables;
-    };
-
-    class SillyUpdatable: public IUpdatable {
-        public:
-            void update();
     };
 }
 

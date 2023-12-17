@@ -17,6 +17,4 @@ namespace wake {
         bn::log(message);
     }
 }
-
-
 # endif // WAKELOG
